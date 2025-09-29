@@ -1,6 +1,6 @@
 streamlit==1.30.0
-torch==2.1.0
-torchvision==0.16.1
+torch==2.1.0+cpu
+torchvision==0.16.1+cpu
 timm==0.9.7
 Pillow==10.1.0
 numpy==1.26.0
