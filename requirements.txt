@@ -1,3 +1,4 @@
+--find-links https://download.pytorch.org/whl/cpu/torch_stable.html
 streamlit==1.30.0
 torch==2.1.0+cpu
 torchvision==0.16.1+cpu
