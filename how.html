@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Microscope Interface</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow:hidden}
+    body{
+      background:#000;
+      font-family:Inter, sans-serif;
+      color:#fff;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+            html, body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="12" fill="none" stroke="%23fff" stroke-width="2"/></svg>') 16 16, auto;
+        }
+        a, button, [role="button"], .sesh-link, .spot, .get-started-btn, .microscope-text, .pointer, [style*="cursor:pointer"] {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="12" fill="%23fff" stroke="%23fff" stroke-width="2"/></svg>') 16 16, pointer !important;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fff;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-corner {
+            background: #000;
+        }
+        /* Firefox */
+        html {
+            scrollbar-color: #fff #000;
+            scrollbar-width: thin;
+        }
+
+    .starfield{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background-image:
+        radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size:32px 32px;
+      background-repeat:repeat;
+      opacity:0.9;
+    }
+
+    .how-title{
+      position: absolute;
+      top: 150px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 64px;
+      line-height: 80px;
+      color: #fff;
+      z-index: 10;
+      letter-spacing: 0px;
+      white-space: nowrap;
+    }
+
+    .container{
+      position: relative;
+      width: 1919px;
+      height: 907px;
+      max-width: 100vw;
+      max-height: 100vh;
+      left: -10%;
+      transform: translateX(-50%);
+    }
+
+    .group-151{
+      position: absolute;
+      width: 1919px;
+      height: 767px;
+      left: 0;
+      top: 57px;
+    }
+
+    /* SVG Arc Background */
+    .arc-background{
+      position: absolute;
+      width: 1241px;
+      height: 451px;
+      left: 50%;
+      top: 211px;
+      transform: translateX(-50%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .arc-path{
+      fill: #D9D9D9;
+      opacity: 1;
+    }
+
+    /* Spots */
+    .spot{
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #000;
+      border: 1px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: all 0.3s ease;
+    }
+
+    .spot:hover{
+      background: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    .spot:hover .number{
+      color: #000;
+    }
+
+    .spot.active{
+      background: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    .spot.active .number{
+      color: #000;
+    }
+
+    .number{
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 50px;
+      color: #fff;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    /* Spot positions matching Figma exactly */
+    .spot-1{
+      left: 311px;
+      top: 650px;
+    }
+
+    .spot-2{
+      left: 416px;
+      top: 427px;
+    }
+
+    .spot-3{
+      left: 613px;
+      top: 264px;
+    }
+
+    .spot-4{
+      left: 935px;
+      top: 194px;
+    }
+
+    .spot-5{
+      left: 1202px;
+      top: 248px;
+    }
+
+    .spot-6{
+      left: 1426px;
+      top: 416px;
+    }
+
+    .spot-7{
+      left: 1545px;
+      top: 657px;
+    }
+
+    /* Instruction Box */
+    .rectangle-15{
+      position: absolute;
+      width: 586px;
+      height: 118px;
+      left: 667px;
+      top: 560px;
+      background: rgba(75, 75, 75, 0.5);
+      border: 3px solid #4B4B4B;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .rectangle-15.visible{
+      opacity: 1;
+    }
+
+    .instruction-text{
+      font-family: 'Sansation', Inter, sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 27px;
+      text-align: center;
+      color: #fff;
+      width: 100%;
+    }
+
+    .phase-title{
+      display: block;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 1920px) {
+      .container{
+        transform: scale(0.95);
+        transform-origin: center center;
+      }
+    }
+
+    @media (max-width: 1600px) {
+      .container{
+        transform: scale(0.8);
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .container{
+        transform: scale(0.6);
+      }
+      .how-title{
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container{
+        transform: scale(0.4);
+      }
+      .how-title{
+        font-size: 36px;
+        top: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="starfield" aria-hidden="true"></div>
+  <div class="how-title">How it works</div>
+
+  <div class="container">
+    <div class="group-151">
+      <!-- SVG Arc Background -->
+      <svg class="arc-background" viewBox="0 0 1241 451" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="arc-path" d="M1240.05 448.582C1208.02 321.282 1129.34 207.603 1016.87 126.123C904.403 44.6423 764.799 0.179519 620.872 0.000542023C476.945 -0.178435 337.207 43.937 224.494 125.137C111.781 206.337 32.7591 319.821 0.342006 447.041L10.5965 449.191C42.4771 324.077 120.191 212.471 231.039 132.615C341.887 52.7584 479.312 9.3731 620.857 9.54912C762.402 9.72513 899.697 53.4521 1010.3 133.584C1120.91 213.716 1198.28 325.514 1229.79 450.708L1240.05 448.582Z"/>
+      </svg>
+
+      <!-- Spots -->
+      <div class="spot spot-1 active" data-index="0" role="button" tabindex="0">
+        <div class="number">1</div>
+      </div>
+
+      <div class="spot spot-2" data-index="1" role="button" tabindex="0">
+        <div class="number">2</div>
+      </div>
+
+      <div class="spot spot-3" data-index="2" role="button" tabindex="0">
+        <div class="number">3</div>
+      </div>
+
+      <div class="spot spot-4" data-index="3" role="button" tabindex="0">
+        <div class="number">4</div>
+      </div>
+
+      <div class="spot spot-5" data-index="4" role="button" tabindex="0">
+        <div class="number">5</div>
+      </div>
+
+      <div class="spot spot-6" data-index="5" role="button" tabindex="0">
+        <div class="number">6</div>
+      </div>
+
+      <div class="spot spot-7" data-index="6" role="button" tabindex="0">
+        <div class="number">7</div>
+      </div>
+
+      <!-- Instruction Box -->
+      <div class="rectangle-15 visible">
+        <div class="instruction-text" id="instruction-text">
+          Place the microorganism slide under the microscope and capture a live image, or upload a sample image.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const phaseData = [
+      { title: 'PHASE 1', text: 'Place the microorganism slide under the microscope and capture a live image, or upload a sample image.' },
+      { title: 'PHASE 2', text: 'AI enhances contrast, removes noise, and normalizes the background.' },
+      { title: 'PHASE 3', text: 'Extracts regions of interest (ROIs) for closer analysis.' },
+      { title: 'PHASE 4', text: 'Instantly identifies species, classifies them, counts individuals, measures size, and checks viability (alive/dead).' },
+      { title: 'PHASE 5', text: 'Runs background tasks, announces results, and triggers deeper analyses.' },
+      { title: 'PHASE 6', text: 'Manages exports and interactions with simple voice commands.' },
+      { title: 'PHASE 7', text: 'Results appear on a live, shareable dashboard with options to download as CSV/JSON or sync securely to the cloud.' }
+    ];
+
+    const spots = document.querySelectorAll('.spot');
+    const instructionText = document.getElementById('instruction-text');
+    const rectBox = document.querySelector('.rectangle-15');
+
+    function setActivePhase(idx) {
+      spots.forEach((spot, i) => {
+        if (i === idx) {
+          spot.classList.add('active');
+        } else {
+          spot.classList.remove('active');
+        }
+      });
+
+      instructionText.innerHTML = `<span class="phase-title">${phaseData[idx].title}</span>${phaseData[idx].text}`;
+      rectBox.classList.add('visible');
+    }
+
+    spots.forEach((spot, i) => {
+      spot.addEventListener('click', () => setActivePhase(i));
+      spot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setActivePhase(i);
+        }
+      });
+    });
+
+    // Initialize first phase
+    setActivePhase(0);
+  </script>
+  <style>
+    html, body { overflow: hidden !important; height: auto; }
+  </style>
+  <script>
+    (function(){
+      function sendHeight(){
+        try{
+          var h = Math.max(
+            document.documentElement ? document.documentElement.scrollHeight : 0,
+            document.body ? document.body.scrollHeight : 0
+          );
+          parent.postMessage({ type: 'iframeHeight', id: 'howFrame', height: h }, '*');
+        }catch(e){}
+      }
+      window.addEventListener('load', sendHeight);
+      window.addEventListener('resize', sendHeight);
+      new MutationObserver(sendHeight).observe(document.documentElement, { childList: true, subtree: true, attributes: true, characterData: true });
+      setTimeout(sendHeight, 50);
+      setTimeout(sendHeight, 300);
+    })();
+  </script>
+</body>
+</html>

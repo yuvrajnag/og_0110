@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Microsankya Footer — Compact 3D</title>
+
+  <!-- Orbitron font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* Reset and base styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html,body { height: 100%; }
+    :root{
+      --bg: #000000;
+      --text: #ffffff;
+      --muted: #aaaaaa;
+      --line: #4b4b4b; /* requested accent/line color */
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: "Orbitron", "MS Gothic", "IBM Plex Mono", monospace;
+      margin: 0;
+      padding: 0;
+      min-height: 0;
+    }
+            html, body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="12" fill="none" stroke="%23fff" stroke-width="2"/></svg>') 16 16, auto;
+        }
+        a, button, [role="button"], .sesh-link, .spot, .get-started-btn, .microscope-text, .pointer, [style*="cursor:pointer"] {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="12" fill="%23fff" stroke="%23fff" stroke-width="2"/></svg>') 16 16, pointer !important;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fff;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-corner {
+            background: #000;
+        }
+        /* Firefox */
+        html {
+            scrollbar-color: #fff #000;
+            scrollbar-width: thin;
+        }
+
+    /* Compact footer with enhanced 3D perspective */
+    .sesh-footer {
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      width: auto;
+      max-width: none;
+      height: 74px;
+      background-color: #070707;
+      border: 1px solid var(--line);
+      color: var(--text);
+      overflow: hidden;
+      perspective: 1000px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -4px 18px rgba(0,0,0,0.75);
+      border-radius: 6px;
+      z-index: 1000;
+      padding: 0;
+    }
+
+    /* Main container (no ascii section now) */
+    .footer-container {
+      display: flex;
+      height: calc(100% - 20px); /* leave room for ticker */
+      transform-style: preserve-3d;
+      position: relative;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      gap: 12px;
+    }
+
+    /* Links section */
+    .links-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transform-style: preserve-3d;
+      transform: translateZ(6px);
+      position: relative;
+      gap: 12px;
+    }
+
+    .link-group {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .sesh-link {
+      color: var(--text);
+      font-size: 12px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: all 0.22s ease;
+      padding: 8px 10px;
+      border-radius: 4px;
+      line-height: 1;
+      display: inline-block;
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    /* subtle underline using 4b4b4b */
+    .sesh-link::before {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      right: 8px;
+      height: 1px;
+      background: var(--line);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.25s ease;
+      opacity: 0.95;
+      border-radius: 1px;
+    }
+
+    .sesh-link:hover {
+      color: #ffffff;
+      transform: translateZ(10px) translateY(-2px);
+      text-shadow: 0 0 6px rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.03);
+    }
+
+    .sesh-link:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Make anchor focus visible (keyboard) */
+    .sesh-link:focus {
+      outline: 2px solid var(--line);
+      outline-offset: 2px;
+    }
+
+    /* Ticker strip at bottom — increased size & clarity */
+    .sesh-ticker {
+      width: 100%;
+      height: 20px;
+      background-color: #040404;
+      overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-content {
+      position: absolute;
+      white-space: nowrap;
+      animation: scroll-left 22s linear infinite;
+      color: var(--text);
+      font-size: 13px; /* increased font size for clarity */
+      letter-spacing: 0.8px;
+      padding: 3px 18px;
+      font-family: "Orbitron", monospace;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      font-weight: 500;
+    }
+
+    /* Visual overlays */
+    .scanline-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(transparent 50%, rgba(75,75,75,0.03) 50%);
+      background-size: 100% 2px;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.6;
+      mix-blend-mode: overlay;
+    }
+
+    .grain-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* 3D floating particles */
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background-color: var(--line);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 3;
+      animation: float-particle 8s infinite linear;
+    }
+
+    /* Animations */
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    @keyframes float-particle {
+      0% { transform: translateY(0) translateX(0) translateZ(0); }
+      25% { transform: translateY(-10px) translateX(10px) translateZ(10px); }
+      50% { transform: translateY(0) translateX(20px) translateZ(0); }
+      75% { transform: translateY(10px) translateX(10px) translateZ(-10px); }
+      100% { transform: translateY(0) translateX(0) translateZ(0); }
+    }
+
+    /* 3D hover effect for the entire footer */
+    .sesh-footer:hover { animation: subtle-hover 5s infinite ease-in-out; }
+
+    @keyframes subtle-hover {
+      0%, 100% { transform: translateZ(0) rotateX(0deg); }
+      50% { transform: translateZ(6px) rotateX(0.6deg); }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+      .sesh-footer { height: 88px; }
+      .ticker-content { font-size: 12px; }
+      .sesh-link { font-size: 11px; padding: 6px; }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Microsankya Footer (no ascii face, no label) -->
+  <div class="sesh-footer" aria-label="Microsankya Footer">
+    <!-- Visual overlays -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="scanline-overlay" aria-hidden="true"></div>
+
+    <!-- Main container with 3D elements -->
+    <div class="footer-container" role="navigation" aria-label="Microsankya footer navigation">
+      <!-- Left link group -->
+      <div class="link-group" aria-hidden="false">
+        <a href="#features" class="sesh-link" title="Features" role="link">features</a>
+        <a href="#rooms" class="sesh-link" title="Rooms" role="link">rooms</a>
+        <a href="#about" class="sesh-link" title="About Us" role="link">about us</a>
+      </div>
+
+      <!-- Right link group -->
+      <div class="link-group" aria-hidden="false">
+        <a href="#microsankya" class="sesh-link" title="Microsankya Project">microsankya</a>
+        <!-- 'void' kept isolated as requested -->
+        <a href="#void" class="sesh-link" title="Void">void</a>
+      </div>
+    </div>
+
+    <!-- Ticker with microscope project summary (increased size & clarity) -->
+    <div class="sesh-ticker" aria-hidden="false">
+      <div class="ticker-content" id="projectTicker" tabindex="0" aria-label="Microsankya project summary">
+       //  MICROSANKYA — Real-time microscope   // AI: capture live slides or upload images → enhance, denoise, detect & classify microorganisms; count & measure; viability checks; heatmaps, live collaboration, and CSV/EXPORT features — Powered by Microsankya Team
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const footer = document.querySelector('.sesh-footer');
+      const linksSection = document.querySelector('.links-section') || document.querySelector('.footer-container');
+      const ticker = document.querySelector('.ticker-content');
+
+      // Random starting offset for ticker so each load differs slightly
+      ticker.style.transform = `translateX(${Math.random() * 100}%)`;
+
+      // 3D subtle parallax on mouse move (only moves link container)
+      footer.addEventListener('mousemove', function(e) {
+        const rect = footer.getBoundingClientRect();
+        const xPos = (e.clientX - rect.left) / rect.width;
+        const yPos = (e.clientY - rect.top) / rect.height;
+
+        const xRotation = (yPos - 0.5) * 5; // -2.5 to 2.5 degrees
+        const yRotation = (xPos - 0.5) * 5; // -2.5 to 2.5 degrees
+
+        footer.style.transform = `rotateX(${-xRotation}deg) rotateY(${yRotation}deg)`;
+        if (linksSection) {
+          linksSection.style.transform = `translateZ(6px) translateX(${yRotation * -1.2}px) translateY(${xRotation * -1.2}px)`;
+        }
+      });
+
+      footer.addEventListener('mouseleave', function() {
+        footer.style.transform = '';
+        if (linksSection) linksSection.style.transform = 'translateZ(6px)';
+      });
+
+      // Dynamic particles for depth
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.top = `${Math.random() * 95 + 2}%`;
+        p.style.left = `${Math.random() * 95 + 2}%`;
+        p.style.animationDelay = `-${Math.random() * 8}s`;
+        p.style.opacity = `${0.12 + Math.random() * 0.55}`;
+        const size = 1 + Math.random() * 3;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        footer.appendChild(p);
+      }
+
+      // Pause ticker on hover/focus for accessibility
+      ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
+      ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
+      ticker.addEventListener('focus', () => ticker.style.animationPlayState = 'paused');
+      ticker.addEventListener('blur', () => ticker.style.animationPlayState = 'running');
+
+      // Ensure links have clear keyboard focus (small fallback)
+      document.querySelectorAll('.sesh-link').forEach(a => {
+        a.addEventListener('focus', () => { a.style.outline = `2px solid ${getComputedStyle(document.documentElement).getPropertyValue('--line') || '#4b4b4b'}`; a.style.outlineOffset = '2px'; });
+        a.addEventListener('blur', () => { a.style.outline = 'none'; });
+      });
+    });
+  </script>
+</body>
+</html>
